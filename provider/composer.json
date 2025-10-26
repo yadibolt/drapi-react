@@ -1,0 +1,94 @@
+{
+    "name": "drupal/recommended-project",
+    "description": "Project template for Drupal projects with a relocated document root",
+    "type": "project",
+    "license": "GPL-2.0-or-later",
+    "homepage": "https://www.drupal.org/project/drupal",
+    "support": {
+        "docs": "https://www.drupal.org/docs/user_guide/en/index.html",
+        "chat": "https://www.drupal.org/node/314178"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
+    ],
+    "require": {
+        "ext-intl": "*",
+        "composer/installers": "^2.3",
+        "drupal/core-composer-scaffold": "^11.2",
+        "drupal/core-recommended": "^11.2",
+        "drupal/gin": "^3.0",
+        "drupal/gin_toolbar": "^1.0",
+        "drupal/mailsystem": "^4.5",
+        "drupal/mimemail": "2.0.x-dev@dev",
+        "mnsami/composer-custom-directory-installer": "^2.0",
+        "oomphinc/composer-installers-extender": "^2.0",
+        "ext-zlib": "*",
+        "ext-apcu": "*",
+        "ext-mbstring": "*",
+        "ext-pdo": "*",
+        "ext-http": "*"
+    },
+    "conflict": {
+        "drupal/drupal": "*"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "carthage-software/mago": true,
+            "composer/installers": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "drupal/core-composer-scaffold": true,
+            "mnsami/composer-custom-directory-installer": true,
+            "oomphinc/composer-installers-extender": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "drupal-scaffold": {
+            "locations": {
+                "web-root": "./"
+            }
+        },
+        "installer-paths": {
+            "core": [
+                "type:drupal-core"
+            ],
+            "libraries/{$name}": [
+                "type:drupal-library"
+            ],
+            "modules/{$name}": [
+                "type:drupal-module"
+            ],
+            "profiles/{$name}": [
+                "type:drupal-profile"
+            ],
+            "themes/{$name}": [
+                "type:drupal-theme"
+            ],
+            "drush/Commands/{$name}": [
+                "type:drupal-drush"
+            ],
+            "modules/{$name}": [
+                "type:drupal-custom-module"
+            ],
+            "profiles/{$name}": [
+                "type:drupal-custom-profile"
+            ],
+            "themes/{$name}": [
+                "type:drupal-custom-theme"
+            ],
+            "recipes/{$name}": [
+                "type:drupal-recipe"
+            ]
+        }
+    },
+    "require-dev": {
+        "carthage-software/mago": "^1.0.0-beta.32"
+    }
+}
