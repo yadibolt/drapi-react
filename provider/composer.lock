@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dec8ef16a672a988cb6580dfb5cafd86",
+    "content-hash": "720ab27d832e8ad1a511211844fbd082",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -795,6 +795,62 @@
                 "source": "https://github.com/drupal/core-recommended/tree/11.2.5"
             },
             "time": "2025-10-02T07:24:02+00:00"
+        },
+        {
+            "name": "drupal/cors_ui",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/cors_ui.git",
+                "reference": "8.x-1.3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/cors_ui-8.x-1.3.zip",
+                "reference": "8.x-1.3",
+                "shasum": "b8e8c00eb4a258eec24f74399cd061f427eb41a1"
+            },
+            "require": {
+                "drupal/core": "^9 || ^10 || ^11"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.3",
+                    "datestamp": "1741101535",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "aurelianzaha",
+                    "homepage": "https://www.drupal.org/user/3575026"
+                },
+                {
+                    "name": "klausi",
+                    "homepage": "https://www.drupal.org/user/262198"
+                },
+                {
+                    "name": "mglaman",
+                    "homepage": "https://www.drupal.org/user/2416470"
+                },
+                {
+                    "name": "sam152",
+                    "homepage": "https://www.drupal.org/user/1485048"
+                }
+            ],
+            "description": "A user interface for CORS handling in Drupal.",
+            "homepage": "https://www.drupal.org/project/cors_ui",
+            "support": {
+                "source": "https://git.drupalcode.org/project/cors_ui"
+            }
         },
         {
             "name": "drupal/gin",
@@ -5245,12 +5301,12 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "ext-intl": "*",
-        "ext-zlib": "*",
         "ext-apcu": "*",
+        "ext-http": "*",
+        "ext-intl": "*",
         "ext-mbstring": "*",
         "ext-pdo": "*",
-        "ext-http": "*"
+        "ext-zlib": "*"
     },
     "platform-dev": {},
     "plugin-api-version": "2.6.0"

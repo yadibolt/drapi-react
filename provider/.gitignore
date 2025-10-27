@@ -13,3 +13,6 @@ sites/simpletest
 .vscode
 .idea
 .osp
+/INSTALL.txt
+/README.md
+/example.gitignore
