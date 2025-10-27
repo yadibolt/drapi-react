@@ -24,8 +24,6 @@ export const useToken = () => {
 export const useAuth = () => {
   const { isLoading, error } = useToken();
 
-  console.log("useAuth", { isLoading, error });
-
   return {
     isLoading,
     error,
