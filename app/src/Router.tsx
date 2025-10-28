@@ -6,7 +6,7 @@ import AppLayout from "./components/app/AppLayout";
 import AppShell from "./components/app/AppShell";
 import HomePage from "./page/HomePage";
 import App40x50xPage from "./page/App40x50xPage";
-import AuthGuard from "./components/app/AuthGuard";
+import Protected from "./components/app/Protected";
 
 export const router = createBrowserRouter([
   {
@@ -17,7 +17,7 @@ export const router = createBrowserRouter([
       // protected routes
       {
         path: "/",
-        element: <AuthGuard />,
+        element: <Protected />,
         errorElement: <AppError />,
         children: [
           {

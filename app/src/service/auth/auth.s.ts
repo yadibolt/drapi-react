@@ -53,6 +53,10 @@ export const authService = {
   },
   gToken() {
     const userStore = useUserStore.getState();
+    const valid = jwt.decode<TUser>(userStore.gToken());
+
+    if (!valid) return null;
+
     return userStore.gToken();
   },
   sToken(token: string | null) {

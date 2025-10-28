@@ -5,6 +5,6 @@ export interface IApiResponseUserToken {
   data: IApiResponseUserTokenData;
 }
 
-interface IApiResponseUserTokenData {
+export interface IApiResponseUserTokenData {
   token: string;
 }
