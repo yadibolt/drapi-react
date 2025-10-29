@@ -7,31 +7,31 @@ const useUserStore = create<IUserStore>()(
     persist(
       (set, get) => ({
         hydrated: false,
-        sHydrated: (hydrated: boolean) => {
+        setHydrated: (hydrated: boolean) => {
           set({ hydrated });
         },
-        gHydrated: () => {
+        getHydrated: () => {
           return get().hydrated;
         },
         user: null,
-        gUser: () => {
+        getUser: () => {
           return get().user;
         },
-        sUser: (user) => {
+        setUser: (user) => {
           set({ user });
         },
         token: null,
-        gToken: () => {
+        getToken: () => {
           return get().token;
         },
-        sToken: (token) => {
+        setToken: (token) => {
           set({ token });
         },
       }),
       {
         name: "user-store",
         onRehydrateStorage: () => (state) => {
-          state?.sHydrated(true);
+          state?.setHydrated(true);
         },
       },
     ),

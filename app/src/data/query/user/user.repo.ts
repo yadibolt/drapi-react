@@ -6,7 +6,7 @@ import type { IApiResponseUserLogin } from "@/@intf/user/user-login.i";
 import type { TLoginValues } from "@/@types/form/login-values.t";
 
 export const userRepo: IUserRepo = {
-  g: async () => {
+  get: async () => {
     const response = await apiService.get<IApiResponseUser>("/user");
     return response.data;
   },

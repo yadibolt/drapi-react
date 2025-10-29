@@ -3,7 +3,7 @@ import type { ITokenRepo } from "../../../@intf/user/user-token-repo.i";
 import { apiAuthService } from "../../../service/global/api.s";
 
 export const tokenRepo: ITokenRepo = {
-  g: async () => {
+  get: async () => {
     const response = await apiAuthService.get<IApiResponseUserToken>("/token");
     return response.data;
   },

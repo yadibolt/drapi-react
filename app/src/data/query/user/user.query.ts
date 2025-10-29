@@ -6,7 +6,7 @@ export const USER_LOGIN_QUERY_KEY = ["login"];
 
 export const gUserQuery = () => ({
   queryKey: [USER_QUERY_KEY],
-  queryFn: () => userRepo.g(),
+  queryFn: () => userRepo.get(),
 });
 
 export const useLoginQueryMutation = () => {

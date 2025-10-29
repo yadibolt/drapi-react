@@ -3,7 +3,7 @@ import useUserStore from "./use-user-store.h";
 import { gTokenQuery } from "../../data/query/user/token.query";
 
 export const useToken = () => {
-  const { sToken } = useUserStore();
+  const { setToken } = useUserStore();
 
   const { data, error, isLoading } = useSuspenseQuery({
     ...gTokenQuery(),
@@ -11,7 +11,7 @@ export const useToken = () => {
   });
 
   if (data?.data.token) {
-    sToken(data.data.token);
+    setToken(data.data.token);
   }
 
   return {

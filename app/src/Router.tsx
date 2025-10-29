@@ -1,15 +1,17 @@
 import { createBrowserRouter } from "react-router-dom";
-import AppError from "./components/app/AppError";
-import App40x50xPage from "./page/App40x50xPage";
-import Protected from "./components/app/Protected";
-import Public from "./components/app/Public";
-import AppLoader from "./components/app/AppLoader";
+import AppError from "./components/app/app-error";
+import App40x50xPage from "./page/Error/App40x50xPage";
+import Protected from "./components/app/protected";
+import Public from "./components/app/public";
+import AppLoader from "./components/app/app-loader";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     lazy: async () => {
-      const { default: AppLayout } = await import("./components/app/AppLayout");
+      const { default: AppLayout } = await import(
+        "./components/app/app-layout"
+      );
 
       return {
         Component: AppLayout,
@@ -28,7 +30,7 @@ export const router = createBrowserRouter([
             path: "",
             lazy: async () => {
               const { default: AppShell } = await import(
-                "./components/app/AppShell"
+                "./components/app/app-shell"
               );
 
               return {
@@ -39,7 +41,9 @@ export const router = createBrowserRouter([
               {
                 index: true,
                 lazy: async () => {
-                  const { default: HomePage } = await import("./page/HomePage");
+                  const { default: HomePage } = await import(
+                    "./page/Home/HomePage"
+                  );
 
                   return {
                     Component: HomePage,
@@ -72,7 +76,7 @@ export const router = createBrowserRouter([
             path: "/register",
             lazy: async () => {
               const { default: RegisterPage } = await import(
-                "./page/RegisterPage"
+                "./page/Register/RegisterPage"
               );
 
               return {

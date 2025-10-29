@@ -5,62 +5,62 @@ import { jwt } from "../../data/util/jwt.util";
 export const authService = {
   loginUser(token: string | null) {
     if (!token) {
-      this.sState("loggedOut");
+      this.setState("loggedOut");
       return;
     }
 
-    this.sState("loggedIn", token);
+    this.setState("loggedIn", token);
   },
   logoutUser() {
-    this.sState("loggedOut");
+    this.setState("loggedOut");
   },
-  gState() {
+  getState() {
     const userStore = useUserStore.getState();
     return {
-      user: userStore.gUser(),
-      token: userStore.gToken(),
-      loggedIn: !!userStore.gUser() && !!userStore.gToken(),
+      user: userStore.getUser(),
+      token: userStore.getToken(),
+      loggedIn: !!userStore.getUser() && !!userStore.getToken(),
     };
   },
-  sState(type: "loggedIn" | "loggedOut", token: string | null = null) {
+  setState(type: "loggedIn" | "loggedOut", token: string | null = null) {
     const userStore = useUserStore.getState();
 
     if (type === "loggedIn") {
       if (!token) {
-        this.sUser(null);
-        this.sToken(null);
+        this.setUser(null);
+        this.setToken(null);
       } else {
-        userStore.sToken(token);
-        userStore.sUser(this.gUser());
+        userStore.setToken(token);
+        userStore.setUser(this.getUser());
       }
 
       return;
     }
 
-    this.sUser(null);
+    this.setUser(null);
   },
-  gUser() {
+  getUser() {
     const userStore = useUserStore.getState();
-    const token = userStore.gToken() || null;
+    const token = userStore.getToken() || null;
 
     if (!token) return null;
 
     return jwt.decode<TUser>(token);
   },
-  sUser(user: TUser | null) {
+  setUser(user: TUser | null) {
     const userStore = useUserStore.getState();
-    userStore.sUser(user);
+    userStore.setUser(user);
   },
-  gToken() {
+  getToken() {
     const userStore = useUserStore.getState();
-    const valid = jwt.decode<TUser>(userStore.gToken());
+    const valid = jwt.decode<TUser>(userStore.getToken());
 
     if (!valid) return null;
 
-    return userStore.gToken();
+    return userStore.getToken();
   },
-  sToken(token: string | null) {
+  setToken(token: string | null) {
     const userStore = useUserStore.getState();
-    userStore.sToken(token);
+    userStore.setToken(token);
   },
 };

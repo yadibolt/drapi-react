@@ -4,5 +4,5 @@ export const TOKEN_QUERY_KEY = ["token"];
 
 export const gTokenQuery = () => ({
   queryKey: [TOKEN_QUERY_KEY],
-  queryFn: () => tokenRepo.g(),
+  queryFn: () => tokenRepo.get(),
 });

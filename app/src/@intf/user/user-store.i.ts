@@ -2,12 +2,12 @@ import type { TUser } from "../../@types/user/user.t";
 
 export interface IUserStore {
   hydrated: boolean;
-  sHydrated: (hydrated: boolean) => void;
-  gHydrated: () => boolean;
+  setHydrated: (hydrated: boolean) => void;
+  getHydrated: () => boolean;
   user: TUser | null;
-  gUser: () => TUser | null;
-  sUser: (user: TUser | null) => void;
+  getUser: () => TUser | null;
+  setUser: (user: TUser | null) => void;
   token: string | null;
-  gToken: () => string | null;
-  sToken: (token: string | null) => void;
+  getToken: () => string | null;
+  setToken: (token: string | null) => void;
 }

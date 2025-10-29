@@ -55,8 +55,8 @@ export function LoginForm({
           }
 
           const { token } = data as IApiResponseUserLoginData;
-          authService.sToken(token);
-          authService.sUser(authService.gUser());
+          authService.setToken(token);
+          authService.setUser(authService.getUser());
 
           navigate("/");
         }

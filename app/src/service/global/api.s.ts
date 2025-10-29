@@ -6,7 +6,7 @@ import type { AxiosError } from "axios";
 import { authService } from "../auth/auth.s";
 
 export const apiAuthInterceptor = (config: InternalAxiosRequestConfig) => {
-  const token = authService.gToken();
+  const token = authService.getToken();
 
   if (token) {
     config.headers["Authorization"] = `Bearer ${token}`;
