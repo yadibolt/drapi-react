@@ -17,7 +17,9 @@ export default defineConfig({
     tsconfigPaths(),
   ],
   resolve: {
-    alias: [{ find: "@", replacement: "/src" }],
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
   },
   server: {
     host: "0.0.0.0",

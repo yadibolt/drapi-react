@@ -6,6 +6,13 @@ const useUserStore = create<IUserStore>()(
   devtools(
     persist(
       (set, get) => ({
+        hydrated: false,
+        sHydrated: (hydrated: boolean) => {
+          set({ hydrated });
+        },
+        gHydrated: () => {
+          return get().hydrated;
+        },
         user: null,
         gUser: () => {
           return get().user;
@@ -23,6 +30,9 @@ const useUserStore = create<IUserStore>()(
       }),
       {
         name: "user-store",
+        onRehydrateStorage: () => (state) => {
+          state?.sHydrated(true);
+        },
       },
     ),
   ),
