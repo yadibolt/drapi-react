@@ -5,6 +5,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./data/client/query.client";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./Router";
+import { Toaster } from "./components/ui/sonner";
 
 function App() {
   const userStore = useUserStore();
@@ -13,6 +14,7 @@ function App() {
   return (
     <UserStoreContext.Provider value={userStoreMemo}>
       <QueryClientProvider client={queryClient}>
+        <Toaster />
         <RouterProvider router={router} />
       </QueryClientProvider>
     </UserStoreContext.Provider>

@@ -64,7 +64,7 @@ export const router = createBrowserRouter([
             path: "/login",
             lazy: async () => {
               const { default: LoginPage } = await import(
-                "./page/Login/LoginPage"
+                "./page/Auth/LoginPage"
               );
 
               return {
@@ -76,11 +76,23 @@ export const router = createBrowserRouter([
             path: "/register",
             lazy: async () => {
               const { default: RegisterPage } = await import(
-                "./page/Register/RegisterPage"
+                "./page/Auth/RegisterPage"
               );
 
               return {
                 Component: RegisterPage,
+              };
+            },
+          },
+          {
+            path: "/reset-password",
+            lazy: async () => {
+              const { default: ResetPasswordPage } = await import(
+                "./page/Auth/ResetPasswordPage"
+              );
+
+              return {
+                Component: ResetPasswordPage,
               };
             },
           },

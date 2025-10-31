@@ -37,6 +37,7 @@ export const authService = {
       return;
     }
 
+    this.setToken(null);
     this.setUser(null);
   },
   getUser() {

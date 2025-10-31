@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/field";
 import * as Yup from "yup";
 import { Link, useNavigate, useRevalidator } from "react-router-dom";
-import type { TLoginValues } from "@/@types/form/login-values.t";
+import type { TLoginValues } from "@/@types/form/auth-values.t";
 import {
   Formik,
   Form as FormikForm,
@@ -19,12 +19,13 @@ import {
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { AlertCircleIcon } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
-import { useLoginQueryMutation } from "@/data/query/user/user.query";
+import { useLoginQueryMutation } from "@/data/query/user/user-auth.query";
 import type {
   IApiResponseUserLogin,
   IApiResponseUserLoginData,
-} from "@/@intf/user/user-login.i";
+} from "@/@intf/user/user-auth.i";
 import { authService } from "@/service/auth/auth.s";
+import { toast } from "sonner";
 
 const schema = Yup.object({
   login: Yup.string().min(6).max(50).required("Login is required"),
@@ -36,6 +37,7 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"form">) {
   const initialValues: TLoginValues = { login: "", password: "" };
+
   const revalidator = useRevalidator();
   const navigate = useNavigate();
   const loginMut = useLoginQueryMutation();
@@ -46,21 +48,42 @@ export function LoginForm({
   ) => {
     try {
       setSubmitting(true);
-      loginMut.mutateAsync(values).then((result) => {
-        if (result) {
-          const { message, error, data } = result as IApiResponseUserLogin;
-          if (error) {
-            setErrors({ login: message });
-            return;
-          }
+      toast.promise<{ name: string }>(
+        () =>
+          new Promise((resolve, reject) => {
+            loginMut
+              .mutateAsync(values)
+              .then((result) => {
+                if (result) {
+                  const { message, error, data } =
+                    result as IApiResponseUserLogin;
+                  if (error) {
+                    setErrors({ login: message });
+                    reject(new Error(message));
+                    return;
+                  }
 
-          const { token } = data as IApiResponseUserLoginData;
-          authService.setToken(token);
-          authService.setUser(authService.getUser());
+                  const { token } = data as IApiResponseUserLoginData;
+                  authService.setToken(token);
+                  authService.setUser(authService.getUser());
 
-          navigate("/");
-        }
-      });
+                  resolve({
+                    name: authService.getUser()?.name || "{{ %user% }}",
+                  });
+
+                  navigate("/");
+                }
+              })
+              .catch((error) => {
+                reject(error);
+              });
+          }),
+        {
+          loading: "Logging in...",
+          success: (data) => `Welcome back, ${data.name}!`,
+          error: "Could not log in. Please try again.",
+        },
+      );
     } catch (error: unknown) {
       setErrors({ login: (error as Error)?.message });
       setSubmitting(false);
@@ -120,12 +143,12 @@ export function LoginForm({
               <Field>
                 <div className="flex items-center">
                   <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <a
-                    href="#"
+                  <Link
+                    to="/reset-password"
                     className="ml-auto text-sm underline-offset-4 hover:underline"
                   >
-                    Forgot your password?
-                  </a>
+                    Reset your password
+                  </Link>
                 </div>
                 <FormikField
                   id="password"
