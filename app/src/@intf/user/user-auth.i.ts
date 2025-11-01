@@ -20,3 +20,9 @@ export interface IApiResponseUserPasswordReset {
   error: boolean;
   timestamp: number;
 }
+
+export interface IApiResponseUserPasswordResetConfirm {
+  message: string;
+  error: boolean;
+  timestamp: number;
+}

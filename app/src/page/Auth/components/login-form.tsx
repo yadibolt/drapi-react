@@ -17,7 +17,6 @@ import {
   type FormikHelpers,
 } from "formik";
 import { Alert, AlertTitle } from "@/components/ui/alert";
-import { AlertCircleIcon } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
 import { useLoginQueryMutation } from "@/data/query/user/user-auth.query";
 import type {
@@ -26,6 +25,7 @@ import type {
 } from "@/@intf/user/user-auth.i";
 import { authService } from "@/service/auth/auth.s";
 import { toast } from "sonner";
+import type { AxiosError } from "axios";
 
 const schema = Yup.object({
   login: Yup.string().min(6).max(50).required("Login is required"),
@@ -44,54 +44,53 @@ export function LoginForm({
 
   const handleSubmit = async (
     values: TLoginValues,
-    { setSubmitting, resetForm, setErrors }: FormikHelpers<TLoginValues>,
+    { setSubmitting, resetForm }: FormikHelpers<TLoginValues>,
   ) => {
-    try {
-      setSubmitting(true);
-      toast.promise<{ name: string }>(
-        () =>
-          new Promise((resolve, reject) => {
-            loginMut
-              .mutateAsync(values)
-              .then((result) => {
-                if (result) {
-                  const { message, error, data } =
-                    result as IApiResponseUserLogin;
-                  if (error) {
-                    setErrors({ login: message });
-                    reject(new Error(message));
-                    return;
-                  }
+    setSubmitting(true);
+    toast.promise<{ username: string }>(
+      () =>
+        new Promise((resolve, reject) => {
+          loginMut
+            .mutateAsync(values)
+            .then((result) => {
+              const { message, error, data } = result as IApiResponseUserLogin;
 
-                  const { token } = data as IApiResponseUserLoginData;
-                  authService.setToken(token);
-                  authService.setUser(authService.getUser());
+              if (error) {
+                reject(new Error(message));
+                return;
+              }
 
-                  resolve({
-                    name: authService.getUser()?.name || "{{ %user% }}",
-                  });
+              const { token } = data as IApiResponseUserLoginData;
+              authService.setToken(token);
+              authService.setUser(authService.getUser());
 
-                  navigate("/");
-                }
-              })
-              .catch((error) => {
-                reject(error);
+              resolve({
+                username: authService.getUser()?.username || "{{ %username% }}",
               });
-          }),
-        {
-          loading: "Logging in...",
-          success: (data) => `Welcome back, ${data.name}!`,
-          error: "Could not log in. Please try again.",
-        },
-      );
-    } catch (error: unknown) {
-      setErrors({ login: (error as Error)?.message });
-      setSubmitting(false);
-    } finally {
-      revalidator.revalidate();
-      setSubmitting(false);
-      resetForm();
-    }
+              resetForm();
+
+              revalidator.revalidate();
+              navigate("/");
+            })
+            .catch((error: AxiosError) => {
+              const data = error.response?.data;
+
+              if (data) {
+                reject((data as IApiResponseUserLogin).message || null);
+              } else {
+                reject(error);
+              }
+            })
+            .finally(() => {
+              setSubmitting(false);
+            });
+        }),
+      {
+        loading: "Logging in...",
+        success: (data) => `Welcome back, ${data.username}!`,
+        error: "Could not log in. Please try again.",
+      },
+    );
   };
 
   return (
@@ -110,11 +109,13 @@ export function LoginForm({
               <div className="flex flex-col items-center gap-1 text-center">
                 <h1 className="text-2xl font-bold">Login to your account</h1>
                 <p className="text-muted-foreground text-sm text-balance">
-                  Enter your login below to login to your account
+                  Enter your credentials below to login
                 </p>
               </div>
-              <Field>
-                <FieldLabel htmlFor="login">Login</FieldLabel>
+              <Field className="gap-1">
+                <FieldLabel htmlFor="login" className="text-xs">
+                  Login
+                </FieldLabel>
                 <FormikField
                   id="login"
                   name="login"
@@ -132,20 +133,21 @@ export function LoginForm({
                   {(msg) => (
                     <Alert
                       variant="destructive"
-                      className="border-0 px-1 py-0 text-sm"
+                      className="border-0 px-1 py-0 text-xs"
                     >
-                      <AlertCircleIcon />
                       <AlertTitle>{msg}</AlertTitle>
                     </Alert>
                   )}
                 </FormikErrorMessage>
               </Field>
-              <Field>
+              <Field className="gap-1">
                 <div className="flex items-center">
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
+                  <FieldLabel htmlFor="password" className="text-xs">
+                    Password
+                  </FieldLabel>
                   <Link
                     to="/reset-password"
-                    className="ml-auto text-sm underline-offset-4 hover:underline"
+                    className="ml-auto underline-offset-4 hover:underline text-xs"
                   >
                     Reset your password
                   </Link>
@@ -154,6 +156,7 @@ export function LoginForm({
                   id="password"
                   name="password"
                   type="password"
+                  placeholder="••••••••"
                   required
                   className={cn(
                     "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
@@ -166,9 +169,8 @@ export function LoginForm({
                   {(msg) => (
                     <Alert
                       variant="destructive"
-                      className="border-0 px-1 py-0 text-sm"
+                      className="border-0 px-1 py-0 text-xs"
                     >
-                      <AlertCircleIcon />
                       <AlertTitle>{msg}</AlertTitle>
                     </Alert>
                   )}

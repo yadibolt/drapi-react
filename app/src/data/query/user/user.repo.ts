@@ -7,7 +7,11 @@ import type {
   IApiResponseUserLogout,
   IApiResponseUserPasswordReset,
 } from "@/@intf/user/user-auth.i";
-import type { TLoginValues } from "@/@types/form/auth-values.t";
+import type {
+  TLoginValues,
+  TResetPasswordConfirmValues,
+  TResetPasswordValues,
+} from "@/@types/form/auth-values.t";
 
 export const userRepo: IUserRepo = {
   get: async () => {
@@ -32,10 +36,17 @@ export const userAuthRepo: IUserAuthRepo = {
     );
     return response.data;
   },
-  resetPassword: async (email: string) => {
+  resetPassword: async (data: TResetPasswordValues) => {
     const response = await apiAuthService.post<IApiResponseUserPasswordReset>(
       "/password/reset",
-      { mail: email },
+      { mail: data.email },
+    );
+    return response.data;
+  },
+  resetPasswordConfirm: async (data: TResetPasswordConfirmValues) => {
+    const response = await apiAuthService.post<IApiResponseUserPasswordReset>(
+      "/password/reset/confirm" + `?token=${encodeURIComponent(data.token)}`,
+      { password: data.newPassword, password_confirm: data.confirmNewPassword },
     );
     return response.data;
   },

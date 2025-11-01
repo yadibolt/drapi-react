@@ -14,7 +14,7 @@ function App() {
   return (
     <UserStoreContext.Provider value={userStoreMemo}>
       <QueryClientProvider client={queryClient}>
-        <Toaster />
+        <Toaster position="top-center" richColors={true} theme="light" />
         <RouterProvider router={router} />
       </QueryClientProvider>
     </UserStoreContext.Provider>

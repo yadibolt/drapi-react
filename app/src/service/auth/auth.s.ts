@@ -1,4 +1,4 @@
-import type { TUser } from "../../@types/user/user.t";
+import type { TJWTUser, TJWTUserData } from "../../@types/user/user.t";
 import useUserStore from "../../hook/user/use-user-store.h";
 import { jwt } from "../../data/util/jwt.util";
 
@@ -46,15 +46,18 @@ export const authService = {
 
     if (!token) return null;
 
-    return jwt.decode<TUser>(token);
+    const decoded: TJWTUser = jwt.decode<TJWTUser>(token);
+    const userData: TJWTUserData | null = decoded?.data ?? null;
+
+    return userData;
   },
-  setUser(user: TUser | null) {
+  setUser(user: TJWTUserData | null) {
     const userStore = useUserStore.getState();
     userStore.setUser(user);
   },
   getToken() {
     const userStore = useUserStore.getState();
-    const valid = jwt.decode<TUser>(userStore.getToken());
+    const valid = jwt.decode<TJWTUser>(userStore.getToken());
 
     if (!valid) return null;
 

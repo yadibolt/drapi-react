@@ -6,6 +6,7 @@ import { authService } from "@/service/auth/auth.s";
 import { toast } from "sonner";
 import { useLogoutQueryMutation } from "@/data/query/user/user-auth.query";
 import { useState } from "react";
+import type { AxiosError } from "axios";
 
 export function LogoutButton() {
   const revalidator = useRevalidator();
@@ -15,43 +16,46 @@ export function LogoutButton() {
   const [isSubmitting, setSubmitting] = useState(false);
 
   const handleSubmit = async () => {
-    try {
-      setSubmitting(true);
-      toast.promise<{ name: string }>(
-        () =>
-          new Promise((resolve, reject) => {
-            logoutMut
-              .mutateAsync()
-              .then((result) => {
-                if (result) {
-                  const { message, error } = result as IApiResponseUserLogout;
-                  if (error) {
-                    reject(new Error(message));
-                    return;
-                  }
+    setSubmitting(true);
+    toast.promise<{ message: string }>(
+      () =>
+        new Promise((resolve, reject) => {
+          logoutMut
+            .mutateAsync()
+            .then((result) => {
+              if (result) {
+                const { message, error } = result as IApiResponseUserLogout;
 
-                  authService.setState("loggedOut");
-                  resolve({ name: "" });
-                  navigate("/login");
+                if (error) {
+                  reject(message);
+                  return;
                 }
-              })
-              .catch((error) => {
+
+                authService.setState("loggedOut");
+                resolve({ message: "" });
+
+                revalidator.revalidate();
+                navigate("/login");
+              }
+            })
+            .catch((error: AxiosError) => {
+              const data = error.response?.data;
+              if (data) {
+                reject((data as IApiResponseUserLogout).message || null);
+              } else {
                 reject(error);
-              });
-          }),
-        {
-          loading: "Logging out...",
-          success: "Successfully logged out.",
-          error: "Could not log out. Please try again.",
-        },
-      );
-    } catch (error: unknown) {
-      toast.error(`${(error as Error).message}`);
-      setSubmitting(false);
-    } finally {
-      revalidator.revalidate();
-      setSubmitting(false);
-    }
+              }
+            })
+            .finally(() => {
+              setSubmitting(false);
+            });
+        }),
+      {
+        loading: "Logging out...",
+        success: "Successfully logged out.",
+        error: "Could not log out. Please try again.",
+      },
+    );
   };
 
   return (

@@ -96,6 +96,18 @@ export const router = createBrowserRouter([
               };
             },
           },
+          {
+            path: "/reset-password/confirm",
+            lazy: async () => {
+              const { default: ResetPasswordConfirmPage } = await import(
+                "./page/Auth/ResetPasswordConfirmPage"
+              );
+
+              return {
+                Component: ResetPasswordConfirmPage,
+              };
+            },
+          },
         ],
       },
     ],
