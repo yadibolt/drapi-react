@@ -14,6 +14,13 @@ export type TResetPasswordConfirmValues = {
   token: string;
 };
 
+export type TRegisterValues = {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
 export type TJWTPasswordResetToken = {
   mod_sig: string;
   iss: string;

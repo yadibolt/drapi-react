@@ -6,6 +6,7 @@ export const USER_LOGIN_QUERY_KEY = ["login"];
 export const USER_LOGOUT_QUERY_KEY = ["logout"];
 export const USER_RESET_PASSWORD_QUERY_KEY = ["reset-password"];
 export const USER_RESET_PASSWORD_CONFIRM_QUERY_KEY = ["reset-password-confirm"];
+export const USER_REGISTER_QUERY_KEY = ["register"];
 
 export const useLoginQueryMutation = () => {
   const queryClient = useQueryClient();
@@ -34,6 +35,19 @@ export const useLogoutQueryMutation = () => {
           USER_RESET_PASSWORD_QUERY_KEY,
           USER_RESET_PASSWORD_CONFIRM_QUERY_KEY,
         ],
+      });
+    },
+  });
+};
+
+export const useRegisterQueryMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: userAuthRepo.register,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [USER_REGISTER_QUERY_KEY],
       });
     },
   });

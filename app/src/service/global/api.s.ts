@@ -12,6 +12,8 @@ export const apiAuthInterceptor = (config: InternalAxiosRequestConfig) => {
     config.headers["Authorization"] = `Bearer ${token}`;
   }
 
+  config.headers["Accept-Language"] = "en"; // TODO: add dynamic language support
+
   return config;
 };
 

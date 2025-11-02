@@ -1,12 +1,12 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import useUserStore from "./use-user-store.h";
-import { gTokenQuery } from "../../data/query/user/token.query";
+import { getTokenQuery } from "../../data/query/user/token.query";
 
 export const useToken = () => {
   const { setToken } = useUserStore();
 
   const { data, error, isLoading } = useSuspenseQuery({
-    ...gTokenQuery(),
+    ...getTokenQuery(),
     staleTime: Infinity,
   });
 

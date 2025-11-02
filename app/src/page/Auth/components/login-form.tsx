@@ -56,7 +56,7 @@ export function LoginForm({
               const { message, error, data } = result as IApiResponseUserLogin;
 
               if (error) {
-                reject(new Error(message));
+                reject(message);
                 return;
               }
 

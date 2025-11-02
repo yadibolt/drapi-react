@@ -5,6 +5,12 @@ export interface IApiResponseUserLogin {
   data: IApiResponseUserLoginData;
 }
 
+export interface IApiResponseUserRegister {
+  message: string;
+  error: boolean;
+  timestamp: number;
+}
+
 export interface IApiResponseUserLoginData {
   token: string;
 }

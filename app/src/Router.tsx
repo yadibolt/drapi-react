@@ -110,6 +110,19 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      // content resolver
+      {
+        path: "*",
+        lazy: async () => {
+          const { default: ContentResolver } = await import(
+            "./page/Content/ContentResolver"
+          );
+
+          return {
+            Component: ContentResolver,
+          };
+        },
+      },
     ],
   },
 ]);

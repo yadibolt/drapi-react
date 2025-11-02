@@ -6,9 +6,11 @@ import type {
   IApiResponseUserLogin,
   IApiResponseUserLogout,
   IApiResponseUserPasswordReset,
+  IApiResponseUserRegister,
 } from "@/@intf/user/user-auth.i";
 import type {
   TLoginValues,
+  TRegisterValues,
   TResetPasswordConfirmValues,
   TResetPasswordValues,
 } from "@/@types/form/auth-values.t";
@@ -33,6 +35,18 @@ export const userAuthRepo: IUserAuthRepo = {
   logout: async () => {
     const response = await apiAuthService.get<IApiResponseUserLogout>(
       "/logout",
+    );
+    return response.data;
+  },
+  register: async (data: TRegisterValues) => {
+    const response = await apiAuthService.post<IApiResponseUserRegister>(
+      "/register",
+      {
+        mail: data.email,
+        username: data.username,
+        password: data.password,
+        password_confirm: data.confirmPassword,
+      },
     );
     return response.data;
   },
