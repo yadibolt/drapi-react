@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import react from "@vitejs/plugin-react";
-/* import fs from "fs"; */
+import fs from "fs";
 import path from "path";
 
 // https://vite.dev/config/
@@ -25,7 +25,7 @@ export default defineConfig({
     host: "0.0.0.0",
     port: 5173,
     strictPort: true,
-    /* https: {
+    https: {
       key: fs.readFileSync(
         path.resolve(
           __dirname,
@@ -38,7 +38,7 @@ export default defineConfig({
           "/home/mpo/wdttgo/certs/dev/drapireact.loc.pem",
         ),
       ),
-    }, */
+    },
     hmr: {
       protocol: "wss",
       host: "drapireact.loc",
