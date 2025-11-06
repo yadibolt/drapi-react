@@ -18,6 +18,9 @@ if (file_exists($app_root . '/sites/settings.local.php')) {
   include $app_root . '/sites/settings.local.php';
 }
 
+#drapireact@dev.com
+#Drapiadmin1@
+
 $databases['default']['default'] = array (
   'database' => "drapi_react",
   'username' => '',
