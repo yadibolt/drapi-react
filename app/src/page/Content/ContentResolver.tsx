@@ -1,5 +1,5 @@
 import AppLoader from "@/components/app/app-loader";
-import App40x50xPage from "../Error/App40x50xPage";
+import App40x50xPage from "../Error/ErrorPage";
 import { Navigate, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getContentQuery } from "@/data/query/content/content.query";

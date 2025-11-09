@@ -1,9 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import AppError from "./components/app/app-error";
-import App40x50xPage from "./page/Error/App40x50xPage";
-import Protected from "./components/app/protected";
-import Public from "./components/app/public";
 import AppLoader from "./components/app/app-loader";
+import ErrorPage from "./page/Error/ErrorPage";
+import Public from "./components/app/public";
 
 export const router = createBrowserRouter([
   {
@@ -17,14 +15,25 @@ export const router = createBrowserRouter([
         Component: AppLayout,
       };
     },
-    errorElement: <App40x50xPage />,
+    errorElement: <ErrorPage />,
     hydrateFallbackElement: <AppLoader />,
     children: [
-      // protected routes
+      // open routes
       {
+        index: true,
+        lazy: async () => {
+          const { default: HomePage } = await import("./page/Home/HomePage");
+
+          return {
+            Component: HomePage,
+          };
+        },
+      },
+      // protected routes
+      /* {
         path: "",
         element: <Protected />,
-        errorElement: <AppError />,
+        errorElement: <ErrorPage />,
         children: [
           {
             path: "",
@@ -37,28 +46,14 @@ export const router = createBrowserRouter([
                 Component: AppShell,
               };
             },
-            children: [
-              {
-                index: true,
-                lazy: async () => {
-                  const { default: HomePage } = await import(
-                    "./page/Home/HomePage"
-                  );
-
-                  return {
-                    Component: HomePage,
-                  };
-                },
-              },
-            ],
           },
         ],
-      },
+      }, */
       // public routes
       {
         path: "",
         element: <Public />,
-        errorElement: <AppError />,
+        errorElement: <ErrorPage />,
         children: [
           {
             path: "/login",
@@ -111,7 +106,7 @@ export const router = createBrowserRouter([
         ],
       },
       // content resolver
-      {
+      /* {
         path: "*",
         lazy: async () => {
           const { default: ContentResolver } = await import(
@@ -122,7 +117,7 @@ export const router = createBrowserRouter([
             Component: ContentResolver,
           };
         },
-      },
+      }, */
     ],
   },
 ]);

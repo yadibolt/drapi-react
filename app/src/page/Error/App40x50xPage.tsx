@@ -1,3 +1,0 @@
-export default function App40x50xPage() {
-  return <div>App40x50xPage</div>;
-}

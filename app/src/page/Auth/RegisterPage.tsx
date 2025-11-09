@@ -4,7 +4,7 @@ import { getContentQuery } from "@/data/query/content/content.query";
 import { useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import AppLoader from "@/components/app/app-loader";
-import App40x50xPage from "../Error/App40x50xPage";
+import App40x50xPage from "../Error/ErrorPage";
 
 export default function RegisterPage() {
   const { pathname, search } = useLocation();
