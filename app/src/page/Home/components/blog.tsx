@@ -9,16 +9,9 @@ import {
   CardHeader,
   CardFooter,
 } from "@/components/ui/card";
+import type { IApiResponseBlogTeasersData } from "@/@intf/content/blog-teasers.i";
 
-type BlogCard = {
-  img: string;
-  alt: string;
-  title: string;
-  description: string;
-  blogLink: string;
-}[];
-
-const Blog = ({ blogCards }: { blogCards: BlogCard }) => {
+const Blog = ({ blogData }: { blogData: IApiResponseBlogTeasersData }) => {
   return (
     <section className="py-8 sm:py-16 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -37,24 +30,26 @@ const Blog = ({ blogCards }: { blogCards: BlogCard }) => {
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {blogCards.map((item, index) => (
+          {blogData.posts.map((item, index) => (
             <Card
               className="pt-0 shadow-none max-lg:last:col-span-full"
               key={index}
             >
               <CardContent className="px-0">
                 <img
-                  src={item.img}
-                  alt={item.alt}
+                  src={item.field_image.url}
+                  alt={item.field_image.alt}
                   className="aspect-video h-60 w-full rounded-t-xl object-cover"
                 />
               </CardContent>
               <CardHeader className="mb-2 gap-3">
                 <CardTitle className="text-xl">
-                  <a href={item.blogLink}>{item.title}</a>
+                  <a href={item.path.alias ?? `/node/${item.nid}`}>
+                    {item.title}
+                  </a>
                 </CardTitle>
                 <CardDescription className="text-base">
-                  {item.description}
+                  {item.field_description.value}
                 </CardDescription>
               </CardHeader>
               <CardFooter>
@@ -63,7 +58,7 @@ const Blog = ({ blogCards }: { blogCards: BlogCard }) => {
                   size="lg"
                   asChild
                 >
-                  <a href={item.blogLink}>
+                  <a href={item.path.alias ?? `/node/${item.nid}`}>
                     Read More
                     <ArrowRightIcon className="transition-transform duration-200 group-hover:translate-x-0.5" />
                   </a>

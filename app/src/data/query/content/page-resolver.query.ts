@@ -1,9 +1,9 @@
 import type { TContentValues } from "@/@types/content/content-values.t";
-import { contentRepo } from "./content.repo";
+import { contentRepo } from "./page-resolver.repo";
 
 export const CONTENT_QUERY_KEY = ["content"];
 
-export const getContentQuery = (data: TContentValues) => ({
+export const getPageResolver = (data: TContentValues) => ({
   queryKey: [CONTENT_QUERY_KEY],
   queryFn: () => contentRepo.get(data),
 });

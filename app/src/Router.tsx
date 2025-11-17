@@ -29,95 +29,76 @@ export const router = createBrowserRouter([
           };
         },
       },
-      // protected routes
-      /* {
-        path: "",
-        element: <Protected />,
-        errorElement: <ErrorPage />,
-        children: [
-          {
-            path: "",
-            lazy: async () => {
-              const { default: AppShell } = await import(
-                "./components/app/app-shell"
-              );
-
-              return {
-                Component: AppShell,
-              };
-            },
-          },
-        ],
-      }, */
-      // public routes
+    ],
+  },
+  {
+    path: "",
+    element: <Public />,
+    errorElement: <ErrorPage />,
+    children: [
       {
-        path: "",
-        element: <Public />,
-        errorElement: <ErrorPage />,
-        children: [
-          {
-            path: "/login",
-            lazy: async () => {
-              const { default: LoginPage } = await import(
-                "./page/Auth/LoginPage"
-              );
-
-              return {
-                Component: LoginPage,
-              };
-            },
-          },
-          {
-            path: "/register",
-            lazy: async () => {
-              const { default: RegisterPage } = await import(
-                "./page/Auth/RegisterPage"
-              );
-
-              return {
-                Component: RegisterPage,
-              };
-            },
-          },
-          {
-            path: "/reset-password",
-            lazy: async () => {
-              const { default: ResetPasswordPage } = await import(
-                "./page/Auth/ResetPasswordPage"
-              );
-
-              return {
-                Component: ResetPasswordPage,
-              };
-            },
-          },
-          {
-            path: "/reset-password/confirm",
-            lazy: async () => {
-              const { default: ResetPasswordConfirmPage } = await import(
-                "./page/Auth/ResetPasswordConfirmPage"
-              );
-
-              return {
-                Component: ResetPasswordConfirmPage,
-              };
-            },
-          },
-        ],
-      },
-      // content resolver
-      /* {
-        path: "*",
+        path: "/login",
         lazy: async () => {
-          const { default: ContentResolver } = await import(
-            "./page/Content/ContentResolver"
+          const { default: LoginPage } = await import("./page/Auth/LoginPage");
+
+          return {
+            Component: LoginPage,
+          };
+        },
+      },
+      {
+        path: "/register",
+        lazy: async () => {
+          const { default: RegisterPage } = await import(
+            "./page/Auth/RegisterPage"
           );
 
           return {
-            Component: ContentResolver,
+            Component: RegisterPage,
           };
         },
-      }, */
+      },
+      {
+        path: "/reset-password",
+        lazy: async () => {
+          const { default: ResetPasswordPage } = await import(
+            "./page/Auth/ResetPasswordPage"
+          );
+
+          return {
+            Component: ResetPasswordPage,
+          };
+        },
+      },
+      {
+        path: "/reset-password/confirm",
+        lazy: async () => {
+          const { default: ResetPasswordConfirmPage } = await import(
+            "./page/Auth/ResetPasswordConfirmPage"
+          );
+
+          return {
+            Component: ResetPasswordConfirmPage,
+          };
+        },
+      },
     ],
+  },
+  {
+    path: "/error",
+    element: <ErrorPage />,
+  },
+  // content resolver
+  {
+    path: "*",
+    lazy: async () => {
+      const { default: PageResolver } = await import(
+        "./page/Content/PageResolver"
+      );
+
+      return {
+        Component: PageResolver,
+      };
+    },
   },
 ]);
